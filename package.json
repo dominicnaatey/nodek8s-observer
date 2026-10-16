@@ -1,0 +1,19 @@
+{
+  "name": "nodek8s-observer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dominicnaatey/nodek8s-observer.git"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/dominicnaatey/nodek8s-observer/issues"
+  },
+  "homepage": "https://github.com/dominicnaatey/nodek8s-observer#readme"
+}
