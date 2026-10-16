@@ -9,6 +9,7 @@ import { metricsMiddleware } from './metrics/httpMetrics.js';
 import observabilityRouter from './routes/observability.js';
 import metricsRouter from './routes/metrics.js';
 import usersRouter from './routes/users.js';
+import adminRouter from './routes/admin.js';
 
 export function createApp(): Application {
   const app = express();
@@ -20,7 +21,6 @@ export function createApp(): Application {
   app.use(requestIdMiddleware);
 
   // FR-5.2 — Metrics: time every request, record counter + histogram + gauge
-  // Must be before routes so req.route is available on res.finish
   app.use(metricsMiddleware);
 
   // FR-5.3 — Structured JSON logging
@@ -35,8 +35,8 @@ export function createApp(): Application {
   // FR-1 — User CRUD endpoints
   app.use('/api/v1/users', usersRouter);
 
-  // Placeholder for Phase 4
-  // app.use('/api/v1/admin', adminRouter);
+  // FR-3 — Chaos / simulation endpoints
+  app.use('/api/v1/admin', adminRouter);
 
   // FR-5.4 — Error handlers (must be last)
   app.use(jsonParseErrorHandler);

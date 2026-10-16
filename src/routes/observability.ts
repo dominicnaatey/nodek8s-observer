@@ -1,20 +1,14 @@
 import { Router, Request, Response } from 'express';
 import { config } from '../config.js';
+import { getReadiness, activateReadiness } from '../chaos/state.js';
 
 const router = Router();
 
-// Track readiness state — will be controlled by chaos endpoints in Phase 4
-let isReady = false;
 const startupTime = Date.now();
-
-// Allow readiness state to be toggled externally (used by chaos state in Phase 4)
-export function setReadiness(value: boolean): void {
-  isReady = value;
-}
 
 // Activate readiness after the startup grace period
 setTimeout(() => {
-  isReady = true;
+  activateReadiness();
 }, config.STARTUP_GRACE_MS);
 
 /**
@@ -29,10 +23,10 @@ router.get('/health', (_req: Request, res: Response) => {
 /**
  * FR-2.3 — Readiness probe
  * Returns 503 during startup grace period, then 200.
- * Can be toggled by chaos endpoint (Phase 4).
+ * Toggled by POST /api/v1/admin/toggle-ready.
  */
 router.get('/ready', (_req: Request, res: Response) => {
-  if (!isReady) {
+  if (!getReadiness()) {
     res.status(503).json({ status: 'not ready' });
     return;
   }
