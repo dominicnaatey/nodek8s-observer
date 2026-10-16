@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { User } from '../types/user.js';
 import { logger } from '../logger.js';
+import { appUsersTotal } from '../metrics/httpMetrics.js';
 
 class UserStore {
   private users: Map<string, User> = new Map();
@@ -28,6 +29,7 @@ class UserStore {
       this.users.set(user.id, user);
     });
 
+    appUsersTotal.set(this.users.size);
     logger.info({ msg: 'User store seeded', count: this.users.size });
   }
 
@@ -47,6 +49,7 @@ class UserStore {
       createdAt: new Date().toISOString(),
     };
     this.users.set(user.id, user);
+    appUsersTotal.set(this.users.size);
     return user;
   }
 
@@ -66,7 +69,9 @@ class UserStore {
   }
 
   delete(id: string): boolean {
-    return this.users.delete(id);
+    const deleted = this.users.delete(id);
+    if (deleted) appUsersTotal.set(this.users.size);
+    return deleted;
   }
 
   count(): number {
