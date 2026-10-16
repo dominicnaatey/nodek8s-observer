@@ -5,6 +5,7 @@ import { logger } from '../logger.js';
 export interface AppError extends Error {
   statusCode?: number;
   code?: string;
+  details?: Record<string, string[]>;
 }
 
 export function errorHandler(
@@ -31,6 +32,7 @@ export function errorHandler(
       code,
       message: err.message,
       requestId: req.requestId,
+      ...(err.details && { details: err.details }),
     },
   });
 }

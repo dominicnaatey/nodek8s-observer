@@ -6,6 +6,7 @@ import {
   jsonParseErrorHandler,
 } from './middleware/errorHandler.js';
 import observabilityRouter from './routes/observability.js';
+import usersRouter from './routes/users.js';
 
 export function createApp(): Application {
   const app = express();
@@ -22,8 +23,10 @@ export function createApp(): Application {
   // FR-2 — Observability endpoints (health, ready, version, metrics)
   app.use(observabilityRouter);
 
-  // Placeholder for future routes (Phase 2, 3, 4)
-  // app.use('/api/v1/users', usersRouter);
+  // FR-1 — User CRUD endpoints
+  app.use('/api/v1/users', usersRouter);
+
+  // Placeholder for future routes (Phase 3, 4)
   // app.use('/metrics', metricsRouter);
   // app.use('/api/v1/admin', adminRouter);
 
