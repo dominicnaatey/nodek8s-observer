@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/dominicnaatey/nodek8s-observer/issues"
   },
-  "homepage": "https://github.com/dominicnaatey/nodek8s-observer#readme"
+  "homepage": "https://github.com/dominicnaatey/nodek8s-observer#readme",
+  "dependencies": {
+    "express": "^5.3.0"
+  }
 }
